@@ -13,14 +13,16 @@ public class AppointmentController {
     @Autowired
     private AppointmentService appointmentService;
 
+    // Actualizar el estado de una cita por ID
     @PutMapping("/{id}")
-    public ResponseEntity<Appointment> updateAppointment(
-            @PathVariable Long id, 
-            @RequestBody Appointment newAppointmentData) {
-        Appointment updatedAppointment = appointmentService.updateAppointment(id, newAppointmentData);
+    public ResponseEntity<Appointment> updateAppointmentStatus(
+            @PathVariable Long id,
+            @RequestParam String status) {
+        Appointment updatedAppointment = appointmentService.updateAppointmentStatus(id, status);
         return ResponseEntity.ok(updatedAppointment);
     }
 
+    // Health check
     @GetMapping("/health")
     public ResponseEntity<String> healthCheck() {
         return ResponseEntity.ok("Healthy");
