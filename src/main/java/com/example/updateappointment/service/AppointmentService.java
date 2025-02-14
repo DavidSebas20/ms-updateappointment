@@ -13,19 +13,22 @@ public class AppointmentService {
     @Autowired
     private AppointmentRepository appointmentRepository;
 
-    public Appointment updateAppointment(Long id, Appointment newAppointmentData) {
-        Optional<Appointment> existingAppointment = appointmentRepository.findById(id);
-
-        if (existingAppointment.isPresent()) {
-            Appointment appointment = existingAppointment.get();
-            appointment.setPatientId(newAppointmentData.getPatientId());
-            appointment.setDoctorId(newAppointmentData.getDoctorId());
-            appointment.setAppointmentDate(newAppointmentData.getAppointmentDate());
-            appointment.setAppointmentTime(newAppointmentData.getAppointmentTime());
-            appointment.setStatus(newAppointmentData.getStatus());
-            return appointmentRepository.save(appointment);
-        } else {
-            throw new RuntimeException("Appointment not found with id: " + id);
+    // Actualizar el estado de una cita
+    public Appointment updateAppointmentStatus(Long id, String status) {
+        // Validar que el estado sea "PENDING" o "CANCELLED"
+        if (!"PENDING".equalsIgnoreCase(status) && !"CANCELLED".equalsIgnoreCase(status)) {
+            throw new IllegalArgumentException("Invalid status. Must be 'PENDING' or 'CANCELLED'.");
         }
+
+        // Buscar la cita por ID
+        Optional<Appointment> optionalAppointment = appointmentRepository.findById(id);
+        if (optionalAppointment.isEmpty()) {
+            throw new RuntimeException("Appointment not found with ID: " + id);
+        }
+
+        // Actualizar el estado
+        Appointment appointment = optionalAppointment.get();
+        appointment.setStatus(status);
+        return appointmentRepository.save(appointment);
     }
 }

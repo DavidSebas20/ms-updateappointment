@@ -1,45 +1,28 @@
 package com.example.updateappointment.entity;
 
 import jakarta.persistence.*;
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "appointments")
 public class Appointment {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // ID autogenerado
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "patient_id", nullable = false) // ID del paciente
+    @Column(name = "patient_id", nullable = false)
     private Long patientId;
 
-    @Column(name = "doctor_id", nullable = false) // ID del doctor
+    @Column(name = "doctor_id", nullable = false)
     private Long doctorId;
 
-    @Column(name = "appointment_date", nullable = false) // Fecha de la cita
-    private LocalDate appointmentDate;
+    @Column(name = "appointment_date_time", nullable = false)
+    private LocalDateTime appointmentDateTime;
 
-    @Column(name = "appointment_time", nullable = false) // Hora de la cita
-    private LocalTime appointmentTime;
+    @Column(name = "status", nullable = false)
+    private String status; // "PENDING" or "CANCELLED"
 
-    @Column(nullable = false) // Estado de la cita
-    private String status;
-
-    // Constructor vacío (requerido por JPA)
-    public Appointment() {}
-
-    // Constructor con parámetros
-    public Appointment(Long patientId, Long doctorId, LocalDate appointmentDate, LocalTime appointmentTime, String status) {
-        this.patientId = patientId;
-        this.doctorId = doctorId;
-        this.appointmentDate = appointmentDate;
-        this.appointmentTime = appointmentTime;
-        this.status = status;
-    }
-
-    // Getters y Setters
+    // Getters and Setters
     public Long getId() {
         return id;
     }
@@ -64,20 +47,12 @@ public class Appointment {
         this.doctorId = doctorId;
     }
 
-    public LocalDate getAppointmentDate() {
-        return appointmentDate;
+    public LocalDateTime getAppointmentDateTime() {
+        return appointmentDateTime;
     }
 
-    public void setAppointmentDate(LocalDate appointmentDate) {
-        this.appointmentDate = appointmentDate;
-    }
-
-    public LocalTime getAppointmentTime() {
-        return appointmentTime;
-    }
-
-    public void setAppointmentTime(LocalTime appointmentTime) {
-        this.appointmentTime = appointmentTime;
+    public void setAppointmentDateTime(LocalDateTime appointmentDateTime) {
+        this.appointmentDateTime = appointmentDateTime;
     }
 
     public String getStatus() {
@@ -86,5 +61,16 @@ public class Appointment {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "Appointment{" +
+                "id=" + id +
+                ", patientId=" + patientId +
+                ", doctorId=" + doctorId +
+                ", appointmentDateTime=" + appointmentDateTime +
+                ", status='" + status + '\'' +
+                '}';
     }
 }
