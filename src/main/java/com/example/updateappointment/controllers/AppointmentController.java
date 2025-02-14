@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/appointments")
+@RequestMapping("/update-appointment/appointments")
 public class AppointmentController {
 
     @Autowired
@@ -19,5 +19,10 @@ public class AppointmentController {
             @RequestBody Appointment newAppointmentData) {
         Appointment updatedAppointment = appointmentService.updateAppointment(id, newAppointmentData);
         return ResponseEntity.ok(updatedAppointment);
+    }
+
+    @GetMapping("/health")
+    public ResponseEntity<String> healthCheck() {
+        return ResponseEntity.ok("Healthy");
     }
 }
